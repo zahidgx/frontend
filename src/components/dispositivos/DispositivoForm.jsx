@@ -1,136 +1,118 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { Form, Button, Container } from "react-bootstrap";
 
-const DispositivoForm = ({ dispositivo, onSave }) => {
+const DispositivoForm = ({ dispositivo, onSave, onCancel }) => {
+  // Estado inicial del formulario
   const [formData, setFormData] = useState({
-    dispositivo_id: '',
-    usuario_id: '',
-    ubicacion: '',
-    estado: 'activo',
-    ultima_reporte: '', // Asegúrate de que el valor esté en formato ISO 8601 para la fecha.
+    dispositivo_id: "",
+    usuario_id: "",
+    ubicacion: "",
+    estado: "activo",
   });
 
+  // Cargar datos en caso de edición
   useEffect(() => {
     if (dispositivo) {
       setFormData({
-        dispositivo_id: dispositivo.dispositivo_id || '',
-        usuario_id: dispositivo.usuario_id || '',
-        ubicacion: dispositivo.ubicacion || '',
-        estado: dispositivo.estado || 'activo',
-        ultima_reporte: dispositivo.ultima_reporte || '', // Asegúrate de que la fecha esté bien formateada.
+        dispositivo_id: dispositivo.dispositivo_id || "",
+        usuario_id: dispositivo.usuario_id || "",
+        ubicacion: dispositivo.ubicacion || "",
+        estado: dispositivo.estado || "activo",
       });
     }
   }, [dispositivo]);
 
+  // Manejar cambios en los inputs
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  // Manejar el envío del formulario
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (dispositivo) {
-      // Editar dispositivo
-      try {
+    // Validar usuario_id como ObjectId
+    if (!/^[0-9a-fA-F]{24}$/.test(formData.usuario_id)) {
+      alert("Error: usuario_id no es un ObjectId válido.");
+      return;
+    }
+
+    try {
+      if (dispositivo) {
         await axios.put(`http://localhost:5000/api/dispositivos/${dispositivo._id}`, formData);
-        onSave();
-      } catch (error) {
-        console.error('Error al editar dispositivo:', error);
+        alert("Dispositivo actualizado correctamente");
+      } else {
+        await axios.post("http://localhost:5000/api/dispositivos/", formData);
+        alert("Dispositivo agregado correctamente");
       }
-    } else {
-      // Crear nuevo dispositivo
-      try {
-        // Asegúrate de que no envíes el _id para la creación
-        const { _id, ...newFormData } = formData;
-
-        // Asegúrate de que el campo ultima_reporte tenga el formato correcto
-        if (newFormData.ultima_reporte) {
-          newFormData.ultima_reporte = new Date(newFormData.ultima_reporte).toISOString();
-        }
-
-        await axios.post('http://localhost:5000/api/dispositivos', newFormData);
-        onSave();
-      } catch (error) {
-        console.error('Error al agregar dispositivo:', error);
-      }
+      onSave(); // Llama a la función para actualizar la lista de dispositivos
+    } catch (error) {
+      console.error("Error al guardar el dispositivo:", error.response?.data || error);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="mb-3">
-        <label htmlFor="dispositivo_id" className="form-label">ID Dispositivo</label>
-        <input
-          type="text"
-          className="form-control"
-          id="dispositivo_id"
-          name="dispositivo_id"
-          value={formData.dispositivo_id}
-          onChange={handleChange}
-          required
-        />
-      </div>
+    <Container className="mt-4">
+      <Form onSubmit={handleSubmit} className="p-4 border rounded shadow-sm bg-light">
+        <h2 className="text-center">{dispositivo ? "Editar Dispositivo" : "Agregar Dispositivo"}</h2>
 
-      <div className="mb-3">
-        <label htmlFor="usuario_id" className="form-label">ID Usuario</label>
-        <input
-          type="text"
-          className="form-control"
-          id="usuario_id"
-          name="usuario_id"
-          value={formData.usuario_id}
-          onChange={handleChange}
-          required
-        />
-      </div>
+        <Form.Group className="mb-3">
+          <Form.Label>ID del Dispositivo</Form.Label>
+          <Form.Control
+            type="text"
+            name="dispositivo_id"
+            value={formData.dispositivo_id}
+            onChange={handleChange}
+            required
+          />
+        </Form.Group>
 
-      <div className="mb-3">
-        <label htmlFor="ubicacion" className="form-label">Ubicación</label>
-        <input
-          type="text"
-          className="form-control"
-          id="ubicacion"
-          name="ubicacion"
-          value={formData.ubicacion}
-          onChange={handleChange}
-          required
-        />
-      </div>
+        <Form.Group className="mb-3">
+          <Form.Label>ID del Usuario</Form.Label>
+          <Form.Control
+            type="text"
+            name="usuario_id"
+            value={formData.usuario_id}
+            onChange={handleChange}
+            required
+          />
+        </Form.Group>
 
-      <div className="mb-3">
-        <label htmlFor="estado" className="form-label">Estado</label>
-        <select
-          className="form-control"
-          id="estado"
-          name="estado"
-          value={formData.estado}
-          onChange={handleChange}
-        >
-          <option value="activo">Activo</option>
-          <option value="inactivo">Inactivo</option>
-        </select>
-      </div>
+        <Form.Group className="mb-3">
+          <Form.Label>Ubicación</Form.Label>
+          <Form.Control
+            type="text"
+            name="ubicacion"
+            value={formData.ubicacion}
+            onChange={handleChange}
+            required
+          />
+        </Form.Group>
 
-      <div className="mb-3">
-        <label htmlFor="ultima_reporte" className="form-label">Último Reporte</label>
-        <input
-          type="datetime-local"
-          className="form-control"
-          id="ultima_reporte"
-          name="ultima_reporte"
-          value={formData.ultima_reporte}
-          onChange={handleChange}
-        />
-      </div>
+        <Form.Group className="mb-3">
+          <Form.Label>Estado</Form.Label>
+          <Form.Select name="estado" value={formData.estado} onChange={handleChange}>
+            <option value="activo">Activo</option>
+            <option value="inactivo">Inactivo</option>
+          </Form.Select>
+        </Form.Group>
 
-      <button type="submit" className="btn btn-primary">
-        {dispositivo ? 'Guardar Cambios' : 'Agregar Dispositivo'}
-      </button>
-    </form>
+        <Button variant="primary" type="submit" className="w-100">
+          {dispositivo ? "Actualizar" : "Agregar"}
+        </Button>
+        {dispositivo && (
+          <Button
+            variant="secondary"
+            type="button"
+            className="w-100 mt-3"
+            onClick={onCancel}
+          >
+            Cancelar
+          </Button>
+        )}
+      </Form>
+    </Container>
   );
 };
 
