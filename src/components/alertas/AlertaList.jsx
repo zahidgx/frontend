@@ -3,8 +3,8 @@ import axios from "axios";
 import AlertaForm from "./AlertaForm";
 import "./Alertas.css";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, CartesianGrid, ResponsiveContainer } from "recharts";
-import { Navbar, Nav, Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Navbar, Nav, Button } from 'react-bootstrap'; // Import the Navbar components
+import { Link, Navigate } from 'react-router-dom'; // Import Link for routing
 
 const AlertaList = () => {
   const [alertas, setAlertas] = useState([]);
@@ -113,15 +113,35 @@ const AlertaList = () => {
     }));
   };
 
+
   return (
     <div style={{ backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url("https://source.unsplash.com/1600x900/?technology,sound")', backgroundSize: 'cover', backgroundPosition: 'center', height: '100vh', width: '100vw', overflowX: 'hidden', display: 'flex', flexDirection: 'column' }}>
+
+      {/* Navbar Superior */}
       <Navbar bg="dark" variant="dark" expand="lg" className="px-4">
         <Navbar.Brand className="fs-3 fw-bold text-primary">SoundAlertIA</Navbar.Brand>
         <Nav className="ms-auto d-flex align-items-center">
-          <Link to="/profile"><Button variant="outline-light" className="me-2">Perfil</Button></Link>
-          <Link to="/usuarios"><Button variant="outline-light" className="me-2">Usuarios</Button></Link>
-          <Link to="/dispositivos"><Button variant="outline-light" className="me-2">Dispositivos</Button></Link>
-          <Link to="/login"><Button variant="danger" className="me-2">Cerrar Sesión</Button></Link>
+          <Link to="/profile">
+            <Button variant="outline-light" className="me-2">
+              Perfil
+            </Button>
+          </Link>
+          <Link to="/usuarios">
+            <Button variant="outline-light" className="me-2">
+              Usuarios
+            </Button>
+          </Link>
+          <Link to="/dispositivos">
+            <Button variant="outline-light" className="me-2">
+              Dispositivos
+            </Button>
+          </Link >
+          <Link to="/login">
+          <Button variant="danger" className="me-2">
+            Cerrar Sesión
+          </Button>
+          </Link>
+          
         </Nav>
       </Navbar>
 
@@ -162,8 +182,8 @@ const AlertaList = () => {
               <th>Nivel</th>
               <th>Texto</th>
               <th>Ubicación</th>
-              <th>Dispositivo ID</th> {/* Nueva columna para el dispositivo_id */}
               <th>Fecha</th>
+              <th>Estado</th>
               <th>Acciones</th>
             </tr>
           </thead>
@@ -175,8 +195,8 @@ const AlertaList = () => {
                 <td>{alerta.nivel_sonido || "No definido"}</td>
                 <td>{alerta.texto_icono || "No definido"}</td>
                 <td>{alerta.ubicacion || "No definido"}</td>
-                <td>{alerta.dispositivo_id || "No definido"}</td> {/* Mostrar dispositivo_id */}
                 <td>{alerta.fecha_hora ? new Date(alerta.fecha_hora).toLocaleDateString() : "No registrada"}</td>
+                <td>{alerta.notificacion || "Desconocido"}</td>
                 <td>
                   <button className="btn btn-warning" onClick={() => handleEdit(alerta)}>Editar</button>
                   <button className="btn btn-danger m-2" onClick={() => handleDelete(alerta._id)}>Eliminar</button>
@@ -221,4 +241,3 @@ const AlertaList = () => {
 };
 
 export default AlertaList;
-
