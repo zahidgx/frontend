@@ -39,12 +39,12 @@ const UsuarioForm = ({ usuario, onSave }) => {
             if (usuario && usuario._id) {
                 // Si estamos actualizando, no enviamos el campo 'password'
                 const { password, ...usuarioData } = formData;
-                await axios.put(`http://localhost:5000/api/usuarios/${usuario._id}`, usuarioData);
+                await axios.put(`http://3.137.221.201/api/usuarios/${usuario._id}`, usuarioData);
 
                 alert("Usuario actualizado correctamente");
             } else {
                 // Si es un nuevo usuario, enviamos 'password'
-                await axios.post('http://localhost:5000/api/auth/register', formData);
+                await axios.post('http://3.137.221.201/api/auth/register', formData);
                 alert("Usuario agregado correctamente");
             }
             onSave();  // Llamar la función onSave para actualizar la lista de usuarios

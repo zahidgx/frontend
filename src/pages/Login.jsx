@@ -11,6 +11,17 @@ const Login = ({ setUser }) => {
   const [timeLeft, setTimeLeft] = useState(0);
   const navigate = useNavigate();
 
+  // Verifica si el usuario está autenticado en el localStorage
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (token && user) {
+      setUser(user);
+      navigate('/profile'); // Redirigir al perfil si ya está autenticado
+    }
+  }, [navigate, setUser]);
+
+  // Lógica para manejar el tiempo de espera en caso de bloqueo
   useEffect(() => {
     if (lockoutTime) {
       const interval = setInterval(() => {
@@ -41,7 +52,7 @@ const Login = ({ setUser }) => {
     }
 
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/login', formData);
+      const response = await axios.post('http://3.137.221.201/api/auth/login', formData);
 
       if (!response.data || !response.data.token || !response.data.user) {
         setErrorMessage('Respuesta inesperada del servidor.');
@@ -50,22 +61,29 @@ const Login = ({ setUser }) => {
 
       alert('Inicio de sesión exitoso');
 
+      // Guardar el token y la información del usuario en el almacenamiento local
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('email', response.data.user.email);
       localStorage.setItem('user', JSON.stringify(response.data.user));
 
-      setUser(response.data.user);
-
+      setUser(response.data.user); // Actualizar el estado del usuario en la app
       console.log("Usuario actualizado:", response.data.user);
       navigate('/profile');
     } catch (error) {
-      setAttempts(attempts + 1);
-      setErrorMessage(error.response?.data?.message || 'Error en el inicio de sesión');
-
-      if (attempts + 1 >= 3) {
-        setLockoutTime(Date.now() + 180000); // 3 minutos de bloqueo
-        setTimeLeft(180);
-        setErrorMessage('Demasiados intentos. Espera 3 minutos.');
+      if (error.response && error.response.data) {
+        const { msg } = error.response.data;
+        
+        // Si el error es de bloqueo de cuenta
+        if (msg.includes('Cuenta bloqueada')) {
+          setLockoutTime(Date.now() + 180000); // 3 minutos de bloqueo
+          setTimeLeft(180);
+          setErrorMessage(msg);
+        } else {
+          setAttempts(prevAttempts => prevAttempts + 1);
+          setErrorMessage(msg || 'Error en el inicio de sesión');
+        }
+      } else {
+        setErrorMessage('Error desconocido');
       }
     }
   };

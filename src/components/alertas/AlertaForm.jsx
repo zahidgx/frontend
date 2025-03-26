@@ -7,9 +7,10 @@ const AlertaForm = ({ alerta, onSave }) => {
     tipo_sonido: "",
     nivel_sonido: "",
     texto_icono: "",
-    dispositivo_id: "", // Asegúrate de que este campo esté correctamente inicializado
+    dispositivo_id: "",
     ubicacion: "",
-    notificacion: "pendiente",
+    notificacion: false, // Campo booleano
+    fecha_hora: "", // Campo de fecha y hora
   });
 
   useEffect(() => {
@@ -18,9 +19,10 @@ const AlertaForm = ({ alerta, onSave }) => {
         tipo_sonido: alerta.tipo_sonido || "",
         nivel_sonido: alerta.nivel_sonido || "",
         texto_icono: alerta.texto_icono || "",
-        dispositivo_id: alerta.dispositivo_id || "", // Asignamos dispositivo_id al estado
+        dispositivo_id: alerta.dispositivo_id || "",
         ubicacion: alerta.ubicacion || "",
-        notificacion: alerta.notificacion || "pendiente",
+        notificacion: alerta.notificacion || false,
+        fecha_hora: alerta.fecha_hora || "", // Asignamos el valor de fecha y hora
       });
     }
   }, [alerta]);
@@ -29,17 +31,21 @@ const AlertaForm = ({ alerta, onSave }) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const handleCheckboxChange = (e) => {
+    setFormData({ ...formData, notificacion: e.target.checked });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      if (alerta && alerta._id) {  // Verifica si existe el _id
-        await axios.put(`http://localhost:5000/api/alertas/${alerta._id}`, formData);
+      if (alerta && alerta._id) {
+        await axios.put(`http://3.137.221.201/api/alertas/${alerta._id}`, formData);
         alert("Alerta actualizada correctamente");
       } else {
-        await axios.post("http://localhost:5000/api/alertas/", formData);
+        await axios.post("http://3.137.221.201/api/alertas/", formData);
         alert("Alerta agregada correctamente");
       }
-      onSave(); // Llama la función onSave para actualizar el estado o vista
+      onSave();
     } catch (error) {
       console.error("Error al guardar la alerta:", error);
       alert("Error al guardar la alerta");
@@ -50,7 +56,7 @@ const AlertaForm = ({ alerta, onSave }) => {
     <Container>
       <Form onSubmit={handleSubmit} className="p-4 border rounded shadow-sm bg-light">
         <h2 className="text-center">{alerta ? "Editar Alerta" : "Nueva Alerta"}</h2>
-        
+
         <Form.Group className="mb-3">
           <Form.Label>Tipo de Sonido</Form.Label>
           <Form.Control 
@@ -111,6 +117,30 @@ const AlertaForm = ({ alerta, onSave }) => {
           />
         </Form.Group>
 
+        {/* Campo de notificación como un checkbox */}
+        <Form.Group className="mb-3">
+          <Form.Check 
+            type="checkbox" 
+            name="notificacion" 
+            label="Notificación Activada" 
+            checked={formData.notificacion} 
+            onChange={handleCheckboxChange}
+          />
+        </Form.Group>
+
+        {/* Campo de fecha y hora */}
+        <Form.Group className="mb-3">
+          <Form.Label>Fecha y Hora</Form.Label>
+          <Form.Control 
+            type="text" 
+            name="fecha_hora" 
+            value={formData.fecha_hora} 
+            onChange={handleChange} 
+            placeholder="Fecha y Hora" 
+            required 
+          />
+        </Form.Group>
+
         <Button variant="primary" type="submit" className="w-100">
           {alerta ? "Actualizar" : "Guardar"}
         </Button>
@@ -120,4 +150,3 @@ const AlertaForm = ({ alerta, onSave }) => {
 };
 
 export default AlertaForm;
-

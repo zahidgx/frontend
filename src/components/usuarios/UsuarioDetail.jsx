@@ -5,7 +5,7 @@ const UsuarioDetail = ({ id }) => {
     const [usuario, setUsuario] = useState(null);
 
     useEffect(() => {
-        axios.get(`http://localhost:5000/api/usuarios/${id}`)
+        axios.get(`http://3.137.221.201/api/usuarios/${id}`)
             .then(res => setUsuario(res.data))
             .catch(err => console.error(err));
     }, [id]);

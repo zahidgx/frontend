@@ -8,7 +8,7 @@ const AlertaItem = ({ alerta, setAlertas }) => {
   const handleEliminar = async () => {
     if (window.confirm("¿Seguro que deseas eliminar esta alerta?")) {
       try {
-        await axios.delete(`http://localhost:5000/api/alertas/${alerta._id}`);
+        await axios.delete(`http://3.137.221.201/api/alertas/${alerta._id}`);
         setAlertas((prev) => prev.filter((a) => a._id !== alerta._id));
       } catch (error) {
         console.error("Error al eliminar la alerta:", error);

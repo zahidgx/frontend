@@ -5,7 +5,7 @@ const DispositivoDetail = ({ id }) => {
     const [dispositivo, setDispositivo] = useState(null);
 
     useEffect(() => {
-        axios.get(`http://localhost:5000/api/dispositivos/${id}`)
+        axios.get(`http://3.137.221.201/api/dispositivos/${id}`)
             .then(res => setDispositivo(res.data))
             .catch(err => console.error(err));
     }, [id]);
