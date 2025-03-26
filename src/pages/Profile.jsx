@@ -27,7 +27,7 @@ const Profile = () => {
 
     const fetchUserData = async () => {
       try {
-        const response = await axios.get( `https://3.145.88.225/api/auth/usuario/${ email }`, {
+        const response = await axios.get( `https://soundalert.soundalt.x10.mx/api/auth/usuario/${ email }`, {
           headers: { Authorization: `Bearer ${ token }` },
         } );
 

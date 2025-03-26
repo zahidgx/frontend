@@ -10,7 +10,7 @@ const AlertaDetail = () => {
   useEffect( () => {
     const fetchAlerta = async () => {
       try {
-        const res = await axios.get( `https://3.145.88.225/api/alertas/${ id }` );
+        const res = await axios.get( `https://soundalert.soundalt.x10.mx/api/alertas/${ id }` );
         setAlerta( res.data );
       } catch ( error ) {
         console.error( "Error al obtener la alerta:", error );

@@ -39,12 +39,12 @@ const UsuarioForm = ({ usuario, onSave }) => {
             if (usuario && usuario._id) {
                 // Si estamos actualizando, no enviamos el campo 'password'
                 const { password, ...usuarioData } = formData;
-                await axios.put(`https://3.145.88.225/api/usuarios/${usuario._id}`, usuarioData);
+                await axios.put(`https://soundalert.soundalt.x10.mx/api/usuarios/${usuario._id}`, usuarioData);
 
                 alert("Usuario actualizado correctamente");
             } else {
                 // Si es un nuevo usuario, enviamos 'password'
-                await axios.post('https://3.145.88.225/api/auth/register', formData);
+                await axios.post('https://soundalert.soundalt.x10.mx/api/auth/register', formData);
                 alert("Usuario agregado correctamente");
             }
             onSave();  // Llamar la función onSave para actualizar la lista de usuarios

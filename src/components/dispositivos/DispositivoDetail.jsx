@@ -5,7 +5,7 @@ const DispositivoDetail = ({ id }) => {
     const [dispositivo, setDispositivo] = useState(null);
 
     useEffect(() => {
-        axios.get(`https://3.145.88.225/api/dispositivos/${id}`)
+        axios.get(`https://soundalert.soundalt.x10.mx/api/dispositivos/${id}`)
             .then(res => setDispositivo(res.data))
             .catch(err => console.error(err));
     }, [id]);

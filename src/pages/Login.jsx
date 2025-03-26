@@ -52,7 +52,7 @@ const Login = ({ setUser }) => {
     }
 
     try {
-      const response = await axios.post('https://3.145.88.225/api/auth/login', formData);
+      const response = await axios.post('https://soundalert.soundalt.x10.mx/api/auth/login', formData);
 
       if (!response.data || !response.data.token || !response.data.user) {
         setErrorMessage('Respuesta inesperada del servidor.');

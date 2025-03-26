@@ -42,10 +42,10 @@ const DispositivoForm = ({ dispositivo, onSave, onCancel }) => {
 
     try {
       if (dispositivo) {
-        await axios.put(`https://3.145.88.225/api/dispositivos/${dispositivo._id}`, formData);
+        await axios.put(`https://soundalert.soundalt.x10.mx/api/dispositivos/${dispositivo._id}`, formData);
         alert("Dispositivo actualizado correctamente");
       } else {
-        await axios.post("https://3.145.88.225/api/dispositivos/", formData);
+        await axios.post("https://soundalert.soundalt.x10.mx/api/dispositivos/", formData);
         alert("Dispositivo agregado correctamente");
       }
       onSave(); // Llama a la función para actualizar la lista de dispositivos
