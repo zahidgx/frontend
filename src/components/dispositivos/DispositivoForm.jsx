@@ -9,6 +9,7 @@ const DispositivoForm = ({ dispositivo, onSave, onCancel }) => {
     usuario_id: "",
     ubicacion: "",
     estado: "activo",
+    ultimo_reporte: "",
   });
 
   // Cargar datos en caso de edición
@@ -19,6 +20,7 @@ const DispositivoForm = ({ dispositivo, onSave, onCancel }) => {
         usuario_id: dispositivo.usuario_id || "",
         ubicacion: dispositivo.ubicacion || "",
         estado: dispositivo.estado || "activo",
+        ultimo_reporte: dispositivo.ultimo_reporte || "",
       });
     }
   }, [dispositivo]);
@@ -96,6 +98,16 @@ const DispositivoForm = ({ dispositivo, onSave, onCancel }) => {
             <option value="activo">Activo</option>
             <option value="inactivo">Inactivo</option>
           </Form.Select>
+        </Form.Group>
+
+        <Form.Group className="mb-3">
+          <Form.Label>Último Reporte</Form.Label>
+          <Form.Control
+            type="text"
+            name="ultimo_reporte"
+            value={formData.ultimo_reporte}
+            onChange={handleChange}
+          />
         </Form.Group>
 
         <Button variant="primary" type="submit" className="w-100">
