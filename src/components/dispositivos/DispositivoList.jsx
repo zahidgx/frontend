@@ -21,7 +21,7 @@ const DispositivoList = () => {
 
   const obtenerDispositivos = async () => {
     try {
-      const response = await axios.get( 'http://3.137.221.201/api/dispositivos/' );
+      const response = await axios.get( 'https://3.145.88.225/api/dispositivos/' );
       setDispositivos( response.data );
     } catch ( error ) {
       console.error( 'Error al obtener dispositivos:', error.response?.data || error );
@@ -31,7 +31,7 @@ const DispositivoList = () => {
   const handleDelete = async ( id ) => {
     if ( window.confirm( "¿Seguro que deseas eliminar este dispositivo?" ) ) {
       try {
-        await axios.delete( `http://3.137.221.201/api/dispositivos/${ id }` );
+        await axios.delete( `https://3.145.88.225/api/dispositivos/${ id }` );
         setDispositivos( dispositivos.filter( d => d._id !== id ) );
       } catch ( error ) {
         console.error( 'Error al eliminar dispositivo:', error.response?.data || error );
@@ -68,7 +68,7 @@ const DispositivoList = () => {
     formData.append( 'file', file );
 
     try {
-      await axios.post( 'http://3.137.221.201/api/dispositivos/import-excel', formData );
+      await axios.post( 'https://3.145.88.225/api/dispositivos/import-excel', formData );
       obtenerDispositivos();
       alert( 'Dispositivos importados correctamente.' );
     } catch ( error ) {
@@ -79,7 +79,7 @@ const DispositivoList = () => {
 
   const handleExport = async () => {
     try {
-      const response = await axios.get('http://3.137.221.201/api/dispositivos/export-excel', {
+      const response = await axios.get('https://3.145.88.225/api/dispositivos/export-excel', {
         responseType: 'blob' // Importante para manejar archivos binarios
       });
   

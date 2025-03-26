@@ -21,7 +21,7 @@ const ForgotPassword = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://3.137.221.201/api/auth/recuperar-password', { email });
+      const response = await axios.post('https://3.145.88.225/api/auth/recuperar-password', { email });
       setMessage(response.data.msg);
       setError('');
       // Opcional: Redirigir al usuario a una página de confirmación de que se envió el correo

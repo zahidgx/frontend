@@ -26,7 +26,7 @@ const UsuarioList = () => {
 
   const obtenerUsuarios = async () => {
     try {
-      const response = await axios.get( 'http://3.137.221.201/api/usuarios/' );
+      const response = await axios.get( 'https://3.145.88.225/api/usuarios/' );
       setUsuarios( response.data );
     } catch ( error ) {
       console.error( 'Error al obtener usuarios:', error );
@@ -47,7 +47,7 @@ const UsuarioList = () => {
   const handleDelete = async (id) => {
     if (window.confirm('¿Seguro que deseas eliminar este usuario?')) {
       try {
-        await axios.delete(`http://3.137.221.201/api/usuarios/${id}`);
+        await axios.delete(`https://3.145.88.225/api/usuarios/${id}`);
         handleSave(); // Obtiene la lista actualizada de usuarios
       } catch (error) {
         console.error('Error al eliminar usuario:', error);
@@ -85,7 +85,7 @@ const UsuarioList = () => {
     formData.append('file', file);
   
     try {
-      const response = await axios.post('http://3.137.221.201/api/usuarios/import-excel', formData, {
+      const response = await axios.post('https://3.145.88.225/api/usuarios/import-excel', formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
       
@@ -100,7 +100,7 @@ const UsuarioList = () => {
 
   const handleExport = async () => {
     try {
-      const response = await axios.get('http://3.137.221.201/api/usuarios/export-excel', {
+      const response = await axios.get('https://3.145.88.225/api/usuarios/export-excel', {
         responseType: 'blob',
       });
   

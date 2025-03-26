@@ -40,10 +40,10 @@ const DispositivoForm = ({ dispositivo, onSave, onCancel }) => {
 
     try {
       if (dispositivo) {
-        await axios.put(`http://3.137.221.201/api/dispositivos/${dispositivo._id}`, formData);
+        await axios.put(`https://3.145.88.225/api/dispositivos/${dispositivo._id}`, formData);
         alert("Dispositivo actualizado correctamente");
       } else {
-        await axios.post("http://3.137.221.201/api/dispositivos/", formData);
+        await axios.post("https://3.145.88.225/api/dispositivos/", formData);
         alert("Dispositivo agregado correctamente");
       }
       onSave(); // Llama a la función para actualizar la lista de dispositivos

@@ -27,7 +27,7 @@ const Profile = () => {
 
     const fetchUserData = async () => {
       try {
-        const response = await axios.get( `http://3.137.221.201/api/auth/usuario/${ email }`, {
+        const response = await axios.get( `https://3.145.88.225/api/auth/usuarios/${ email }`, {
           headers: { Authorization: `Bearer ${ token }` },
         } );
 

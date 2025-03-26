@@ -39,10 +39,10 @@ const AlertaForm = ({ alerta, onSave }) => {
     e.preventDefault();
     try {
       if (alerta && alerta._id) {
-        await axios.put(`http://3.137.221.201/api/alertas/${alerta._id}`, formData);
+        await axios.put(`https://3.145.88.225/api/alertas/${alerta._id}`, formData);
         alert("Alerta actualizada correctamente");
       } else {
-        await axios.post("http://3.137.221.201/api/alertas/", formData);
+        await axios.post("https://3.145.88.225/api/alertas/", formData);
         alert("Alerta agregada correctamente");
       }
       onSave();

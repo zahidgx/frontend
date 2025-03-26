@@ -46,7 +46,7 @@ const Register = () => {
     if ( !validateForm() ) return;
 
     try {
-      await axios.post( 'http://3.137.221.201/api/auth/register', formData );
+      await axios.post( 'https://3.145.88.225/api/auth/register', formData );
       alert( 'Registro exitoso' );
       navigate( '/login' );
     } catch ( error ) {

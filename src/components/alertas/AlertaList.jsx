@@ -20,7 +20,7 @@ const AlertaList = () => {
 
   const fetchAlertas = async () => {
     try {
-      const res = await axios.get("http://3.137.221.201/api/alertas/");
+      const res = await axios.get("https://3.145.88.225/api/alertas/");
       setAlertas(res.data);
     } catch (error) {
       console.error("Error al obtener alertas:", error);
@@ -30,7 +30,7 @@ const AlertaList = () => {
   const handleDelete = async (id) => {
     if (window.confirm("¿Seguro que deseas eliminar esta alerta?")) {
       try {
-        await axios.delete(`http://3.137.221.201/api/alertas/${id}`);
+        await axios.delete(`https://3.145.88.225/api/alertas/${id}`);
         setAlertas(prevAlertas => prevAlertas.filter(alerta => alerta._id !== id));
       } catch (error) {
         console.error("Error al eliminar la alerta:", error);
@@ -67,7 +67,7 @@ const AlertaList = () => {
     formData.append("file", file);
 
     try {
-      await axios.post("http://localhost:5000/api/alertas/import-excel", formData);
+      await axios.post("https://3.145.88.225/api/alertas/import-excel", formData);
       fetchAlertas();
       alert("Alertas importadas correctamente.");
     } catch (error) {
@@ -78,7 +78,7 @@ const AlertaList = () => {
 
   const handleExport = async () => {
     try {
-      const response = await axios.get("http://3.137.221.201/api/alertas/export-excel", { responseType: "blob" });
+      const response = await axios.get("https://3.145.88.225/api/alertas/export-excel", { responseType: "blob" });
       const url = window.URL.createObjectURL(new Blob([response.data]));
       const link = document.createElement("a");
       link.href = url;
