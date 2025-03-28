@@ -24,7 +24,7 @@ const ResetPassword = () => {
     }
 
     try {
-      const response = await axios.post(`http://localhost:5000/api/auth/reset-password`, { token, password });
+      const response = await axios.post(`https://soundalert.soundalt.x10.mx/api/auth/reset-password`, { token, password });
       setMessage(response.data.msg);
       setTimeout(() => navigate('/login'), 2000);
     } catch (error) {

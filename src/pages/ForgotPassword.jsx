@@ -21,7 +21,7 @@ const ForgotPassword = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/recuperar-password', { email });
+      const response = await axios.post('https://soundalert.soundalt.x10.mx/api/auth/recuperar-password', { email });
       setMessage(response.data.msg);
       setError('');
     } catch (error) {
@@ -78,4 +78,4 @@ const ForgotPassword = () => {
   );
 };
 
-export default ForgotPassword; 
+export default ForgotPassword;
