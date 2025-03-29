@@ -3,8 +3,8 @@ import axios from "axios";
 import AlertaForm from "./AlertaForm";
 import "./Alertas.css";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, CartesianGrid, ResponsiveContainer } from "recharts";
-import { Navbar, Nav, Button } from 'react-bootstrap'; // Import the Navbar components
-import { Link, Navigate } from 'react-router-dom'; // Import Link for routing
+import { Navbar, Nav, Button } from 'react-bootstrap'; 
+import { Link } from 'react-router-dom'; 
 
 const AlertaList = () => {
   const [alertas, setAlertas] = useState([]);
@@ -13,8 +13,15 @@ const AlertaList = () => {
   const [isAdding, setIsAdding] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    } else {
+      setUser(null); // Redirigir a login si no hay usuario
+    }
     fetchAlertas();
   }, []);
 
@@ -100,7 +107,6 @@ const AlertaList = () => {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const paginatedAlertas = filteredAlertas.slice(startIndex, startIndex + itemsPerPage);
 
-  // Función para contar alertas por tipo de sonido
   const getChartData = (alertas) => {
     const dataMap = {};
     alertas.forEach(alerta => {
@@ -113,35 +119,28 @@ const AlertaList = () => {
     }));
   };
 
-
   return (
     <div style={{ backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url("https://source.unsplash.com/1600x900/?technology,sound")', backgroundSize: 'cover', backgroundPosition: 'center', height: '100vh', width: '100vw', overflowX: 'hidden', display: 'flex', flexDirection: 'column' }}>
 
-      {/* Navbar Superior */}
       <Navbar bg="dark" variant="dark" expand="lg" className="px-4">
         <Navbar.Brand className="fs-3 fw-bold text-primary">SoundAlertIA</Navbar.Brand>
         <Nav className="ms-auto d-flex align-items-center">
           <Link to="/profile">
-            <Button variant="outline-light" className="me-2">
-              Perfil
-            </Button>
+            <Button variant="outline-light" className="me-2">Perfil</Button>
           </Link>
-          <Link to="/usuarios">
-            <Button variant="outline-light" className="me-2">
-              Usuarios
-            </Button>
-          </Link>
-          <Link to="/dispositivos">
-            <Button variant="outline-light" className="me-2">
-              Dispositivos
-            </Button>
-          </Link >
+          {user && user.rol === 'admin' && (
+            <>
+              <Link to="/usuarios">
+                <Button variant="outline-light" className="me-2">Usuarios</Button>
+              </Link>
+              <Link to="/dispositivos">
+                <Button variant="outline-light" className="me-2">Dispositivos</Button>
+              </Link>
+            </>
+          )}
           <Link to="/login">
-          <Button variant="danger" className="me-2">
-            Cerrar Sesión
-          </Button>
+            <Button variant="danger" className="me-2">Cerrar Sesión</Button>
           </Link>
-          
         </Nav>
       </Navbar>
 
@@ -155,7 +154,8 @@ const AlertaList = () => {
       />
 
       <div className="d-flex justify-content-center align-items-center">
-        {!isAdding && !editingAlerta && (
+        {/* Ahora los botones de importar y exportar están visibles para todos los usuarios */}
+        {(!isAdding && !editingAlerta) && (
           <>
             <button className="btn btn-primary" onClick={handleAdd}>Agregar Alerta</button>
             <input type="file" accept=".xlsx" className="ms-3" onChange={handleImport} />
@@ -183,7 +183,7 @@ const AlertaList = () => {
               <th>Texto</th>
               <th>Ubicación</th>
               <th>Fecha</th>
-              <th>Notificacion</th>
+              <th>Notificación</th>
               <th>Acciones</th>
             </tr>
           </thead>
@@ -198,8 +198,12 @@ const AlertaList = () => {
                 <td>{alerta.fecha_hora ? new Date(alerta.fecha_hora).toLocaleDateString() : "No registrada"}</td>
                 <td>{alerta.notificacion ? "True" : "False"}</td>
                 <td>
-                  <button className="btn btn-warning" onClick={() => handleEdit(alerta)}>Editar</button>
-                  <button className="btn btn-danger m-2" onClick={() => handleDelete(alerta._id)}>Eliminar</button>
+                  {user && user.rol === 'admin' && (
+                    <>
+                      <button className="btn btn-warning" onClick={() => handleEdit(alerta)}>Editar</button>
+                      <button className="btn btn-danger m-2" onClick={() => handleDelete(alerta._id)}>Eliminar</button>
+                    </>
+                  )}
                 </td>
               </tr>
             ))}
@@ -225,7 +229,6 @@ const AlertaList = () => {
         </button>
       </div>
 
-      {/* Gráfica */}
       <ResponsiveContainer width="100%" height={300}>
         <BarChart data={getChartData(alertas)} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3 3" />
@@ -241,3 +244,4 @@ const AlertaList = () => {
 };
 
 export default AlertaList;
+

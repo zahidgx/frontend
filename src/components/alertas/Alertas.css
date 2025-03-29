@@ -1,8 +1,15 @@
 /* Contenedor principal */
 .usuario-list {
-    width: 80%;
-    margin: auto;
+    width: 90%; /* Aumenté el ancho para que ocupe más espacio */
+    margin: 0 auto;
     text-align: center;
+    padding: 20px;
+}
+
+/* Contenedor de la tabla para habilitar el desplazamiento horizontal */
+.table-container {
+    overflow-x: auto; /* Hace que la tabla sea desplazable si es muy ancha */
+    margin-top: 20px;
 }
 
 /* Tabla con bordes y fondo */
@@ -10,20 +17,23 @@
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
+    table-layout: fixed; /* Asegura que las celdas tengan un tamaño más uniforme */
 }
 
 /* Encabezado de la tabla */
 .usuario-table th {
     background-color: #007bff;
     color: white;
-    padding: 10px;
+    padding: 12px; /* Aumenté el padding para más espacio */
     border: 1px solid #ddd;
+    font-size: 16px; /* Aumenté el tamaño de la fuente */
 }
 
 /* Filas de la tabla */
 .usuario-table td {
-    padding: 10px;
+    padding: 12px; /* Aumenté el padding para más espacio */
     border: 1px solid #ddd;
+    font-size: 14px; /* Ajusté el tamaño de la fuente */
 }
 
 /* Alternar colores en filas */
@@ -38,13 +48,15 @@
 
 /* Botones */
 .button {
-    padding: 8px 12px;
+    padding: 10px 15px; /* Aumenté el tamaño del padding */
     border: none;
     cursor: pointer;
-    margin: 5px;
+    margin: 8px;
     border-radius: 5px;
+    font-size: 16px; /* Tamaño de la fuente aumentado */
 }
 
+/* Botones específicos */
 .edit-button {
     background-color: yellow;
     color: black;
@@ -58,4 +70,25 @@
 .add-button {
     background-color: green;
     color: white;
+}
+
+/* Estilo para el campo de búsqueda */
+.search-container input {
+    padding: 10px;
+    font-size: 16px;
+    width: 80%; /* Aumento el tamaño del input */
+    margin: 10px auto;
+    display: block;
+}
+
+/* Estilo para los botones de acción (agregar, importar, exportar) */
+.action-buttons {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.action-buttons button, .action-buttons input {
+    margin: 10px;
+    padding: 12px 20px; /* Más padding para botones */
+    font-size: 16px;
 }

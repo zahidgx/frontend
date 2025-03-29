@@ -78,7 +78,7 @@ const Profile = () => {
               {/* Estilo para separar el nombre del logo */ }
               <span className="text-white me-3">{ user.nombre }</span>
 
-              { user.rol === 'admin' && (
+              { user.rol === 'admin' ? (
                 <>
                   <Link to="/usuarios">
                     <Button variant="outline-light" className="me-2">
@@ -96,7 +96,13 @@ const Profile = () => {
                     </Button>
                   </Link>
                 </>
-              ) }
+              ) : (
+                <Link to="/alertas">
+                  <Button variant="outline-light" className="me-2">
+                    Alertas
+                  </Button>
+                </Link>
+              )}
               <Button variant="danger" onClick={ handleLogout }>
                 Cerrar Sesión
               </Button>

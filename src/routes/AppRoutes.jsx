@@ -44,6 +44,13 @@ function AppRoutes({ user, setUser }) {
         </>
       )}
 
+      {/* Solo accesibles si el usuario no es admin */}
+      {user?.rol !== 'admin' && (
+        <>
+          <Route path="/alertas" element={<Alertas />} />
+        </>
+      )}
+
       {/* Ruta por defecto */}
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>
