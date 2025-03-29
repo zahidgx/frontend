@@ -153,16 +153,19 @@ const AlertaList = () => {
         onChange={(e) => setSearchTerm(e.target.value)}
       />
 
-      <div className="d-flex justify-content-center align-items-center">
-        {/* Ahora los botones de importar y exportar están visibles para todos los usuarios */}
-        {(!isAdding && !editingAlerta) && (
-          <>
-            <button className="btn btn-primary" onClick={handleAdd}>Agregar Alerta</button>
-            <input type="file" accept=".xlsx" className="ms-3" onChange={handleImport} />
-            <button className="btn btn-success ms-3" onClick={handleExport}>Exportar a Excel</button>
-          </>
-        )}
-      </div>
+<div className="d-flex justify-content-center align-items-center">
+  {/* Botón de agregar alerta solo visible para administradores */}
+  {(!isAdding && !editingAlerta) && (
+    <>
+      {user && user.rol === 'admin' && (
+        <button className="btn btn-primary" onClick={handleAdd}>Agregar Alerta</button>
+      )}
+      <input type="file" accept=".xlsx" className="ms-3" onChange={handleImport} />
+      <button className="btn btn-success ms-3" onClick={handleExport}>Exportar a Excel</button>
+    </>
+  )}
+</div>
+
 
       {(isAdding || editingAlerta) && (
         <div>
